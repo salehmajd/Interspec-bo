@@ -46,7 +46,7 @@ class Exemplaire(models.Model):
     usure = models.ForeignKey(Usure, on_delete=models.CASCADE, default=None)
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE, default=None)
     def __str__(self):
-        return self.livre
+        return self.livre.titre
 
 class Adherent(models.Model):
     nom = models.CharField(max_length=250)
@@ -64,7 +64,7 @@ class emprunt(models.Model):
     date_retour = models.DateTimeField("date retour")
     status = models.CharField(max_length=250)
     def __str__(self):
-        return self.date_emprunt
+        return self.adherent.nom
     def emprunte_recemment(self):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.date_emprunt <= now

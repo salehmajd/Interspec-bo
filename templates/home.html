@@ -3,12 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Interspec Backoffice</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js">
+    </script>
+
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css" rel="stylesheet"
+          type="text/css" />
 </head>
 <body>
     <h1>Home Page pour l'app Interspec Backoffice</h1>
 
+    {%if dernier_emprunt_list%}
+        <ul>
+            {%for emprunt in dernier_emprunt_list%}
+                <li>
+                    {{emprunt.examplaire}}, {{emprunt.adherent}}, {{emprunt.date_emprunt}}, {{emprunt.date_retour}}, {{emprunt.status}}
+                </li>
+            {%endfor%}
+        </ul>
+    {%else%}
+        <p>Il n'y a pas d'emprunt</p>
+    {%endif%}
+
     <form action="{%url 'search_results'%}" method="get">
-        <input name="q" type="text" placeholder="Search...">
+        <input name="q" type="text" placeholder="Search..." id="tags">
     </form>
+    <script>
+            $(function () {
+                var availableTags = [
+                    {% for adherent in adherents %}
+                        "{{adherent.nom}}",
+                    {% endfor %}
+                ];
+                $("#tags").autocomplete({
+                    source: availableTags
+                });
+            } );
+        </script>
 </body>
 </html>

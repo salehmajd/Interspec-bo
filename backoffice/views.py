@@ -2,13 +2,17 @@ from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 
-from backoffice.models import Adherent
+from backoffice.models import Adherent, emprunt
 
 
 # Create your views here.
 
-class HomePageView(TemplateView):
+def HomePageView(request):
+    adherents = Adherent.objects.all()
     template_name = 'home.html'
+    dernier_emprunt_list = emprunt.objects.all()[:5]
+    context = {'adherents': adherents, 'dernier_emprunt_list': dernier_emprunt_list}
+    return render(request, template_name, context)
 
 class SearchResultsView(ListView):
     model = Adherent
