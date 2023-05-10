@@ -19,7 +19,7 @@
         <ul>
             {%for emprunt in dernier_emprunt_list%}
                 <li>
-                    {{emprunt.examplaire}}, {{emprunt.adherent}}, {{emprunt.date_emprunt}}, {{emprunt.date_retour}}, {{emprunt.status}}
+                    <a href="detail/{{emprunt.id}}/">{{emprunt.exemplaire}}</a>
                 </li>
             {%endfor%}
         </ul>
@@ -27,14 +27,14 @@
         <p>Il n'y a pas d'emprunt</p>
     {%endif%}
 
-    <form action="{%url 'search_results'%}" method="get">
+    <form action="{% url 'search_results' %}" method="get">
         <input name="q" type="text" placeholder="Search..." id="tags">
     </form>
     <script>
             $(function () {
                 var availableTags = [
                     {% for adherent in adherents %}
-                        "{{adherent.nom}}",
+                        "{{adherent.nom}} {{adherent.prenom}}",
                     {% endfor %}
                 ];
                 $("#tags").autocomplete({
